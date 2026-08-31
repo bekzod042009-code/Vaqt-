@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Aniq vaqtda ishga tushadigan budilnik/eslatma uchun -->
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="Soat va Budilnik"
+        android:theme="@style/Theme.SoatBudilnik"
+        android:supportsRtl="true">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Budilnik signal berganda ishga tushadi -->
+        <receiver android:name=".receiver.AlarmReceiver" android:exported="false" />
+
+        <!-- Rejalashtirilgan eslatma vaqti kelganda ishga tushadi -->
+        <receiver android:name=".receiver.ReminderReceiver" android:exported="false" />
+
+        <!-- Avtomatik vaqtni ovoz bilan aytish uchun (masalan har soatda) -->
+        <receiver android:name=".receiver.TimeAnnouncerReceiver" android:exported="false" />
+
+        <!-- Telefon qayta yoqilganda barcha alarmlarni tiklaydi -->
+        <receiver
+            android:name=".receiver.BootReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Budilnik signal ekranini to'liq ekranda ko'rsatish uchun -->
+        <activity
+            android:name=".ui.AlarmRingActivity"
+            android:exported="false"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true"
+            android:launchMode="singleInstance" />
+
+    </application>
+
+</manifest>
